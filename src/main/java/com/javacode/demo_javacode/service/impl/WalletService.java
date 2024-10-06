@@ -4,12 +4,10 @@ import com.javacode.demo_javacode.dto.WalletResponseDto;
 import com.javacode.demo_javacode.entity.Wallet;
 import com.javacode.demo_javacode.mapper.WalletMapper;
 import com.javacode.demo_javacode.utils.exception.WalletNotFoundException;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import com.javacode.demo_javacode.repository.WalletRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -42,7 +40,7 @@ public class WalletService {
         return walletMapper.toWalletResponseDto(walletRepository.save(wallet));
     }
 
-    @Transactional()
+
     public WalletResponseDto getAmount(UUID walletId) {
         log.info(walletId.toString());
         Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new RuntimeException(String.format("Card with id: %s was not found", walletId)));

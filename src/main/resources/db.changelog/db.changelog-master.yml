@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: v1/create_wallet_table.yml
+      file: v1/v.1.0.2_create_wallet_table.yml
       relativeToChangelogFile: true
