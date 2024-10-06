@@ -27,18 +27,18 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-    compileOnly 'org.projectlombok:lombok'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
     implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.0'
-//    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'com.h2database:h2'
     implementation 'org.liquibase:liquibase-core:4.23.2'
     runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -46,11 +46,11 @@ dependencies {
 liquibase {
     activities {
         main {
-            changeLogFile 'src/main/resources/db/changelog/db.changelog-master.yml'  // Основной файл с changeLog-ами
-            url 'jdbc:postgresql://localhost:5433/wallet_db'                         // URL вашей базы данных
-            username project.findProperty('DB_USERNAME') ?: 'student'                // Пользователь базы данных
-            password project.findProperty('DB_PASSWORD') ?: '321'                    // Пароль базы данных
-            logLevel 'info'                                                          // Уровень логирования
+            changeLogFile 'src/main/resources/db/changelog/db.changelog-master.yml'
+            url 'jdbc:postgresql://localhost:5433/wallet_db'
+            username project.findProperty('DB_USERNAME') ?: 'student'
+            password project.findProperty('DB_PASSWORD') ?: '321'
+            logLevel 'info'
         }
     }
     runList = 'main'

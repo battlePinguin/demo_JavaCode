@@ -9,11 +9,11 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
- * @author Azamat Vladislav
+ * @author Vladislav Azamat
  *
  */
-@Schema(description = "Ответное сообщение системы в случае ошибки")
-public record WalletDto(
+@Schema(description = "Запрос клиента")
+public record WalletRequestDto(
 
         @Schema(description = "Номер счета")
         @JsonProperty("walletId")

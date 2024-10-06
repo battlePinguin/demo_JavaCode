@@ -1,6 +1,6 @@
 package com.javacode.demo_javacode.service.impl;
 
-import com.javacode.demo_javacode.entity.Wallet;
+import com.javacode.demo_javacode.dto.WalletResponseDto;
 import com.javacode.demo_javacode.service.OperationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +19,10 @@ public class OperationTypeExecutor {
         this.operations = operations;
     }
 
-    public Wallet executeOperation(String operation, WalletService walletService, UUID id, BigDecimal amount) {
+    public WalletResponseDto executeOperation(String operation, WalletService walletService, UUID id, BigDecimal amount) {
         OperationType operationType = operations.get(operation.toUpperCase());
         if (operationType == null) {
-            throw new IllegalArgumentException("Invalid operation type: " + operation);
+            throw new IllegalArgumentException("Недопустимое значение для OperationTypeDto: не может быть null ");
         }
         return operationType.execute(walletService, id, amount);
     }

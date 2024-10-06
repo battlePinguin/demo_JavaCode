@@ -1,9 +1,44 @@
 services:
   postgres:
     image: 'postgres:latest'
+    container_name: docker_wallet_db
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      - 'POSTGRES_DB=docker_wallet_db'
+      - 'POSTGRES_PASSWORD=321'
+      - 'POSTGRES_USER=student'
     ports:
-      - '5432'
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - spring-network
+    restart: 'always'
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U student -d docker_wallet_db'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  demo_javacode:
+    build:
+      dockerfile: Dockerfile
+    container_name:  demo_javacode_app
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_LOCATION=/app/config/application-docker.properties
+      - 'DB_URL=jdbc:postgresql://postgres:5432/docker_wallet_db'
+      - 'DB_USERNAME=student'
+      - 'DB_PASSWORD=321'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - spring-network
+    volumes:
+      - ./config:/app/config
+networks:
+  spring-network:
+volumes:
+  db_data:

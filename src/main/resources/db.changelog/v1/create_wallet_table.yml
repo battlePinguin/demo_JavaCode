@@ -1,7 +1,13 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 10
       author: Vladislav Azamat
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+            tableExists:
+              tableName: wallet
       changes:
         - createTable:
             tableName: wallet
@@ -17,3 +23,19 @@ databaseChangeLog:
                   type: DECIMAL(19,2)
                   constraints:
                     nullable: false
+      rollback:
+        - dropTable:
+          tableName: wallet
+
+  - changeSet:
+      id: 11
+      author: Vladislav Azamat
+      changes:
+        - sqlFile:
+            path: "db.changelog/db_insert_1000_script.sql"
+            encoding: "UTF-8"
+            splitStatements: true
+            endDelimiter: ";"
+      rollback:
+        - sql:
+            sql: "DELETE FROM wallet WHERE id IN (SELECT id FROM wallet);"

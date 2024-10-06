@@ -3,6 +3,7 @@ package com.javacode.demo_javacode.utils;
 import com.javacode.demo_javacode.dto.ErrorDto;
 import com.javacode.demo_javacode.utils.exception.InsufficientFundsException;
 import com.javacode.demo_javacode.utils.exception.WalletNotFoundException;
+import jakarta.persistence.LockTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -57,6 +58,18 @@ public class RestExceptionHandler {
     public ErrorDto handleGeneralException(Exception ex) {
         log.error(ex.getMessage(), ex);
         return getErrorDto(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Обработчик ошибок со статусом 409 CONFLICT.
+     *
+     * @param ex Объект исключения.
+     * @return Информацию об ошибке.
+     */
+    @ExceptionHandler(LockTimeoutException.class)
+    public ErrorDto handleLockTimeoutException(Exception ex) {
+        log.error(ex.getMessage(), ex);
+        return getErrorDto(HttpStatus.CONFLICT);
     }
     /**
      * Создает объект для заданного HTTP статуса.
