@@ -1,5 +1,6 @@
-package dto;
+package com.javacode.demo_javacode.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -14,5 +15,16 @@ public enum OperationTypeDto {
     /**
      * Система MasterCard.
      */
-    WITHDRAW
+    WITHDRAW;
+
+    @JsonCreator
+    public static OperationTypeDto fromClient(String jsonValue) {
+        for (OperationTypeDto type : OperationTypeDto.values()) {
+            if (type.name().equalsIgnoreCase(jsonValue)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Недопустимое значение для OperationTypeDto: " + jsonValue);
+    }
+
 }

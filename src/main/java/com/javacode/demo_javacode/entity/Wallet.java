@@ -1,33 +1,27 @@
-package entity;
+package com.javacode.demo_javacode.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.UUID;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "wallet")
 public class Wallet {
-    
+
     @Id
-    UUID id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    BigDecimal amount;
-
-    // TODO: перенести проверку в ДТОху
-    public void setBalance(BigDecimal amount) {
-
-        if (amount.precision() - amount.scale() > 17) { // Проверка на общее количество цифр до запятой
-            throw new IllegalArgumentException("Общее количество цифр перед запятой не должно превышать 17");
-        }
-        this.amount = amount.setScale(2, RoundingMode.HALF_UP); // Устанавливаем 2 знака после запятой
-    }
+    private BigDecimal amount;
 
 }

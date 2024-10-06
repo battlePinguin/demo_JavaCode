@@ -1,3 +1,4 @@
 databaseChangeLog:
-  - includeAll:
-      path: db/changelog
+  - include:
+      file: v1/create_wallet_table.yml
+      relativeToChangelogFile: true

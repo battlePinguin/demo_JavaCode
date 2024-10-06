@@ -1,6 +1,9 @@
-package dto;
+package com.javacode.demo_javacode.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -12,14 +15,19 @@ import java.util.UUID;
 @Schema(description = "Ответное сообщение системы в случае ошибки")
 public record WalletDto(
 
-    @Schema(description = "Номер счета")
-    UUID id,
+        @Schema(description = "Номер счета")
+        @JsonProperty("walletId")
+        @NotNull(message = "Номер счета не должен быть null")
+        UUID id,
 
-    @Schema(description = "Вид операции")
-    OperationTypeDto operationType,
+        @Schema(description = "Вид операции")
+        @NotNull(message = "Вид операции не должна быть null")
+        OperationTypeDto operationType,
 
-    @Schema(description = "Сумма счета")
-    BigDecimal amount
+        @Schema(description = "Сумма счета")
+        @NotNull(message = "Сумма счета не должна быть null")
+        @Digits(integer = 19, fraction = 2, message = "Сумма счета должна содержать не более 19 цифр в целой части и 2 знаков после запятой")
+        BigDecimal amount
 
     ){
 }
